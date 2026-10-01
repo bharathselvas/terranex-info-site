@@ -34,10 +34,23 @@ const config: Config = {
           50: "#F0F3F9",
         },
         saffron: {
-          600: "#C96A1A",
+          // `600` is the on-light text accent. It is deliberately darker than
+          // the brand's #C96A1A so small-caps eyebrow text clears WCAG AA
+          // (4.5:1) against white.
+          600: "#A85A14",
           500: "#E67E22",
           100: "#FEF0E0",
           50: "#FFFAF2",
+        },
+        slate: {
+          // 300 is decorative-only (rules, hairlines, empty grid cells) and is
+          // never used for text. 400 is the lightest shade allowed to carry
+          // text on white (4.76:1).
+          300: "#CBD5E1",
+          400: "#64748B",
+          500: "#556070",
+          600: "#44403C",
+          700: "#292524",
         },
         stone: {
           50: "#FAFAF9",

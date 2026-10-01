@@ -28,7 +28,7 @@ export function StatusTag({ status, className = "", withTitle = true }: StatusTa
   );
 }
 
-export function StatusKey({ status }: { status: Status }) {
+export function StatusKey({ status }: StatusTagProps) {
   const meta = STATUS_META[status];
   return (
     <div className="flex flex-col gap-1">

@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 /**
  * A vertical chain of stages with connector arrows.
  * Used for the problem statement, the case lifecycle and the field workflow.
@@ -144,7 +142,7 @@ export function FactStrip({
           className={`px-4 py-3.5 ${tone === "dark" ? "bg-navy-900" : "bg-white"}`}
         >
           <dt
-            className={`label-caps ${tone === "dark" ? "text-white/45" : "text-slate-400"}`}
+            className={`label-caps ${tone === "dark" ? "text-white/70" : "text-slate-400"}`}
           >
             {item.label}
           </dt>
@@ -217,7 +215,7 @@ export function Connector({ className = "" }: { className?: string }) {
   );
 }
 
-export function PlusRow({ children, className = "" }: { children: ReactNode; className?: string }) {
+export function PlusRow({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center justify-center gap-3 ${className}`} aria-hidden>
       <span className="h-px flex-1 bg-slate-200" />

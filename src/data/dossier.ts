@@ -171,7 +171,7 @@ export const MODULES: Module[] = [
     image: "/screenshots/case-rehabilitation.webp",
     imageAlt: "Terranex rehabilitation and resettlement tracking screen",
     status: "prototype",
-    href: "#journey",
+    href: "#workflow",
   },
   {
     id: "audit",

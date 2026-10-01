@@ -20,7 +20,7 @@ function ChromeBar({ url, tone = "light" }: { url: string; tone?: "light" | "dar
       </span>
       <span
         className={`flex min-w-0 flex-1 items-center gap-1.5 truncate rounded-[5px] border px-2 py-[3px] font-mono text-[10px] ${
-          dark ? "border-white/10 bg-white/5 text-white/50" : "border-rule bg-white text-slate-400"
+          dark ? "border-white/10 bg-white/5 text-white/70" : "border-rule bg-white text-slate-400"
         }`}
       >
         <Lock className="h-[9px] w-[9px] shrink-0" aria-hidden />
@@ -62,7 +62,7 @@ function Caption({
         </span>
         {note ? (
           <span
-            className={`hidden truncate text-[11.5px] sm:inline ${dark ? "text-white/45" : "text-muted-foreground"}`}
+            className={`hidden truncate text-[11.5px] sm:inline ${dark ? "text-white/70" : "text-muted-foreground"}`}
           >
             {note}
           </span>
