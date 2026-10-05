@@ -21,6 +21,27 @@ export function PrototypeStatus() {
       title="Where We Are Today. Where We're Going Next."
       deck="A judge should be able to tell exactly what is running and what is designed. This section is the honest boundary between the two."
     >
+      {/* ── Status legend ── */}
+      <Reveal>
+        <ul className="mb-10 flex flex-wrap gap-x-8 gap-y-3 border-y border-rule py-5" aria-label="Status legend">
+          <li className="flex items-center gap-2.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-success" aria-hidden />
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-navy-900">Demonstrated</span>
+            <span className="text-[15px] text-slate-500">— running in the prototype</span>
+          </li>
+          <li className="flex items-center gap-2.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-saffron-500" aria-hidden />
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-navy-900">Prototype</span>
+            <span className="text-[15px] text-slate-500">— interface demonstrated on synthetic data</span>
+          </li>
+          <li className="flex items-center gap-2.5">
+            <span className="h-2.5 w-2.5 rounded-full border-2 border-dashed border-saffron-500 bg-transparent" aria-hidden />
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-navy-900">Planned</span>
+            <span className="text-[15px] text-slate-500">— specified for the target implementation</span>
+          </li>
+        </ul>
+      </Reveal>
+
       {/* ── Capability matrix ── */}
       <Reveal>
         <div className="overflow-hidden rounded-lg border border-rule bg-white shadow-[0_1px_2px_rgba(15,35,64,0.05)]">
@@ -45,7 +66,7 @@ export function PrototypeStatus() {
             <tbody className="divide-y divide-rule/70">
               {CAPABILITY_MATRIX.map((row) => (
                 <tr key={row.capability}>
-                  <td className="px-5 py-3 text-[13.5px] leading-snug text-slate-700">
+                  <td className="px-5 py-3.5 text-[16px] leading-snug text-slate-700">
                     {row.capability}
                   </td>
                   <td className="px-5 py-3">
@@ -63,7 +84,7 @@ export function PrototypeStatus() {
         <Reveal>
           <div className="flex h-full flex-col rounded-lg border-2 border-success/30 bg-white">
             <div className="flex items-center justify-between gap-3 border-b border-rule bg-emerald-50/60 px-5 py-4">
-              <h3 className="text-[15.5px] font-semibold text-navy-900">Current Prototype</h3>
+              <h3 className="type-card-title text-navy-900">Current Prototype</h3>
               <span className="rounded-sm border border-success/30 bg-white px-1.5 py-[3px] font-mono text-[9.5px] uppercase tracking-[0.14em] text-success">
                 Demonstrated
               </span>
@@ -91,7 +112,7 @@ export function PrototypeStatus() {
         <Reveal delay={1}>
           <div className="flex h-full flex-col rounded-lg border-2 border-dashed border-saffron-500/45 bg-white">
             <div className="flex items-center justify-between gap-3 border-b border-rule bg-saffron-50/70 px-5 py-4">
-              <h3 className="text-[15.5px] font-semibold text-navy-900">Target Implementation</h3>
+              <h3 className="type-card-title text-navy-900">Target Implementation</h3>
               <span className="rounded-sm border border-saffron-500/40 bg-white px-1.5 py-[3px] font-mono text-[9.5px] uppercase tracking-[0.14em] text-saffron-600">
                 Planned
               </span>

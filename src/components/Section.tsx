@@ -45,27 +45,27 @@ export function Section({
       aria-labelledby={`${id}-heading`}
       className={`scroll-mt-20 border-b border-rule ${bg} ${className}`}
     >
-      <div className="mx-auto w-full max-w-dossier px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
+      <div className="mx-auto w-full max-w-dossier px-5 py-24 sm:px-8 sm:py-32 lg:py-36">
         <header className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
           {eyebrow ? (
-            <p className={`label-caps mb-5 flex items-center gap-3 ${eyebrowColor} ${centered ? "justify-center" : ""}`}>
-              <span aria-hidden className={`h-px w-8 shrink-0 ${tone === "dark" ? "bg-saffron-500/70" : "bg-saffron-500/60"}`} />
+            <p className={`label-caps mb-6 flex items-center gap-3 ${eyebrowColor} ${centered ? "justify-center" : ""}`}>
+              <span aria-hidden className={`h-px w-10 shrink-0 ${tone === "dark" ? "bg-saffron-500/70" : "bg-saffron-500/60"}`} />
               {eyebrow}
             </p>
           ) : null}
           <h2
             id={`${id}-heading`}
-            className={`text-balance text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] tracking-[-0.022em] ${titleColor}`}
+            className={`type-section text-balance ${titleColor}`}
           >
             {title}
           </h2>
           {deck ? (
-            <p className={`mt-5 text-pretty text-[15px] leading-relaxed sm:text-base ${deckColor}`}>
+            <p className={`type-body text-pretty mt-6 max-w-2xl ${deckColor}`}>
               {deck}
             </p>
           ) : null}
         </header>
-        <div className={centered ? "mt-14" : "mt-14 sm:mt-16"}>{children}</div>
+        <div className={centered ? "mt-16" : "mt-16 sm:mt-20"}>{children}</div>
       </div>
     </section>
   );

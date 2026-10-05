@@ -141,7 +141,7 @@ export function Navbar() {
                     go(item.id);
                   }}
                   aria-current={active === item.id ? "true" : undefined}
-                  className={`relative block rounded px-2.5 py-1.5 text-[13px] font-medium transition-colors ${
+                  className={`type-nav relative block rounded px-2.5 py-1.5 transition-colors ${
                     active === item.id
                       ? "text-navy-900"
                       : "text-slate-600 hover:text-navy-900"

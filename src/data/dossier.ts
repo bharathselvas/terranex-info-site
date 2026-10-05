@@ -55,7 +55,7 @@ export const NAV_ITEMS: NavItem[] = [
 
 /* ── Section 01 — Hero ────────────────────────────────────────────────── */
 
-export const HERO_META = ["GIS", "CASE MANAGEMENT", "DOCUMENTS", "AUDITABILITY"];
+export const HERO_META = ["GIS", "CASE MANAGEMENT", "STATUTORY WORKFLOW", "AUDIT TRAIL"];
 
 /* ── Section 02 — The problem ─────────────────────────────────────────── */
 

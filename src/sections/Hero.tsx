@@ -58,12 +58,8 @@ export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-navy-900 text-white">
       <div className="dossier-grid absolute inset-0 opacity-[0.22]" aria-hidden />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[560px] bg-[radial-gradient(110%_85%_at_50%_-10%,rgba(230,126,34,0.16),transparent_62%)]"
-        aria-hidden
-      />
 
-      <div className="relative mx-auto w-full max-w-dossier px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
+      <div className="relative mx-auto w-full max-w-dossier px-5 pb-20 pt-20 sm:px-8 sm:pb-24 sm:pt-24 lg:pb-28 lg:pt-28">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.06fr)] lg:gap-14">
           {/* ── Copy ── */}
           <div>
@@ -79,39 +75,31 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={1}>
-              <h1 className="mt-7 text-[clamp(2.1rem,5.2vw,3.4rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
-                <span className="block text-white/65">TERRANEX</span>
-                <span className="mt-3 block text-balance">One Connected Workflow for Land Acquisition.</span>
+              <h1 className="type-hero mt-7 text-balance">
+                <span className="block text-white/60">TERRANEX</span>
+                <span className="mt-3 block">One Connected Workflow for Land Acquisition.</span>
               </h1>
             </Reveal>
 
             <Reveal delay={2}>
-              <p className="mt-6 max-w-xl text-pretty text-[15.5px] leading-relaxed text-navy-100/85 sm:text-[17px]">
-                Terranex connects parcels, cases, documents, compensation and rehabilitation
-                workflows into one traceable digital system.
+              <p className="type-body mt-6 max-w-xl text-pretty text-navy-100/90">
+                A GIS-based case management platform that connects land parcels, statutory
+                stages, documents, compensation and rehabilitation into one traceable
+                acquisition record.
               </p>
             </Reveal>
 
             <Reveal delay={3}>
-              <ul className="mt-7 flex flex-wrap items-center gap-x-2 gap-y-2">
-                {HERO_META.map((item, i) => (
-                  <li key={item} className="flex items-center gap-2">
-                    {i > 0 ? (
-                      <span className="text-saffron-500" aria-hidden>
-                        •
-                      </span>
-                    ) : null}
-                    <span className="label-caps text-white/70">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <p className="label-caps mt-7 text-white/65">
+                GIS · Case Management · Statutory Workflow · Audit Trail
+              </p>
             </Reveal>
 
             <Reveal delay={4}>
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <a
                   href="#problem"
-                  className="group inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-[14px] font-semibold text-navy-900 transition-colors hover:bg-saffron-500 hover:text-white"
+                  className="group inline-flex items-center gap-2 rounded-md bg-white px-6 py-3.5 text-[15px] font-semibold text-navy-900 transition-colors hover:bg-saffron-500 hover:text-white"
                 >
                   Explore the System
                   <ArrowDown
@@ -121,7 +109,7 @@ export function Hero() {
                 </a>
                 <a
                   href="#architecture"
-                  className="inline-flex items-center gap-2 rounded-md border border-white/20 px-5 py-3 text-[14px] font-semibold text-white/85 transition-colors hover:border-white/45 hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-md border border-white/20 px-6 py-3.5 text-[15px] font-semibold text-white/85 transition-colors hover:border-white/45 hover:text-white"
                 >
                   <Network className="h-4 w-4" aria-hidden />
                   View Architecture
@@ -130,7 +118,7 @@ export function Hero() {
             </Reveal>
 
             <Reveal delay={5}>
-              <p className="mt-8 max-w-md border-l-2 border-white/15 pl-3.5 text-[12.5px] leading-relaxed text-white/70">
+              <p className="mt-8 max-w-md border-l-2 border-saffron-500/70 pl-4 text-[15px] leading-relaxed text-white/75">
                 All screens shown are functional frontend prototypes using synthetic demonstration
                 data. Government datasets, persistent backend services and production integrations
                 are part of the target implementation unless explicitly marked otherwise.
@@ -140,10 +128,6 @@ export function Hero() {
 
           {/* ── Product ── */}
           <Reveal delay={2} className="relative">
-            <div
-              className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-[radial-gradient(60%_50%_at_50%_0%,rgba(230,126,34,0.20),transparent_70%)] blur-2xl"
-              aria-hidden
-            />
             <BrowserFrame
               eager
               src="/screenshots/hero-dashboard.webp"
@@ -153,8 +137,11 @@ export function Hero() {
               status="prototype"
               url="terranex · gis workstation"
               frameTone="dark"
-              className="border-white/12 bg-navy-950 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]"
+              className="border-white/12 bg-navy-950 shadow-[0_48px_110px_-32px_rgba(0,0,0,0.75)]"
             />
+            <p className="label-caps mt-4 text-white/55">
+              Live prototype screen — GIS workstation, NH-47 Package 03 · 236 parcels
+            </p>
           </Reveal>
         </div>
 
