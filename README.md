@@ -34,7 +34,7 @@ npm install
 npm run dev        # local dev server on :3200
 npm run build      # typecheck + production build to dist/
 npm run preview    # serve the production build on :4173
-npm run typecheck  # tsc --noEmit
+npm run typecheck  # tsc -b --noEmit
 npm run lint       # oxlint
 ```
 
@@ -46,11 +46,12 @@ src/
     Navbar.tsx           sticky nav, IntersectionObserver scroll-spy, focus-trapped drawer
     Footer.tsx
     Section.tsx          shared section chrome (eyebrow, heading, deck, tone)
-    ScreenshotFrame.tsx  BrowserFrame · PhoneFrame · UIFragment · ProductPanel
+    ScreenshotFrame.tsx  BrowserFrame · PhoneFrame · UIFragment
     StatusTag.tsx        the PROTOTYPE / PLANNED honesty primitive
+    StatusTagProps.ts    shared status types
     Reveal.tsx           reduced-motion-aware scroll reveal
-    Flow.tsx             FlowChain · ConvergeDiagram · FactStrip · DiagramNode
-  sections/              17 sections, one per file, in reading order
+    Flow.tsx             FlowChain · ConvergeDiagram
+  sections/              18 sections, one per file, in reading order
   data/
     dossier.ts           all copy + content model in one place
 public/
@@ -68,7 +69,7 @@ Two colours were **darkened from the prototype's palette for accessibility**:
 - `saffron-600` `#C96A1A` → `#A85A14` — clears 4.5:1 on white for the small-caps eyebrow text.
 - `slate-400` `#94A3B8` → `#64748B` — clears 4.5:1 on white.
 
-Verified at 0 contrast failures across ~820 text nodes at 1440px and 390px.
+Verified at 0 contrast failures across 990 text nodes at 1440px and 950 at 390px.
 `slate-300` is retained but reserved for decorative rules and empty grid cells, never text.
 
 ## The prototype / planned boundary
@@ -83,19 +84,23 @@ capability is labelled, and the content model requires a status on every claim.
 | `PLANNED` | Designed and scoped, not yet connected |
 | `TARGET WORKFLOW` | Intended production behaviour of the screen |
 
-Sections 13, 15 and the architecture layer stack carry the explicit prototype → target split.
+The Security, Prototype Status and Roadmap sections and the architecture layer stack carry the
+explicit prototype → target split.
 No security certification, throughput figure or percentage improvement is claimed anywhere.
 
 ## Verified
 
+Checked in headless Chrome against `npm run preview` (production build):
+
 - Production build, typecheck and lint clean
-- 0 horizontal overflow at 1440 / 1024 / 390
-- All 62 images load; 60 lazy, 2 eager (hero + first phone)
-- No 4xx/5xx responses; no console errors
-- All navigation anchors resolve; mobile drawer opens, closes and scrolls
-- Keyboard: skip link first, visible focus ring on every focusable, focus trapped in drawer
-- `prefers-reduced-motion` honoured — all 76 reveals render immediately, scrolling is instant
+- 0 horizontal overflow at 1440 / 1280 / 1024 / 768 / 390
+- All 62 rendered images load; 60 lazy, 2 eager (hero + first phone); 0 broken
+- 0 responses with status ≥ 400; 0 console errors
+- All navigation anchors resolve (0 dangling); mobile drawer opens, traps focus, closes on Escape
+- Keyboard: skip link first, visible focus ring on all 39 tabbable elements
+- `prefers-reduced-motion` honoured — all 78 reveals render immediately, scrolling is instant
 - One `h1`, 17 `h2`, no heading-level jumps, every image has `alt`
+- 0 WCAG AA contrast failures (990 text nodes at 1440px, 950 at 390px)
 
 ## Deploy
 

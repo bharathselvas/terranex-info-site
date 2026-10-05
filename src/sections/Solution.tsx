@@ -1,7 +1,14 @@
 import { ArrowRight, Check } from "lucide-react";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
-import { AFTER_CHAIN, BEFORE_CHAIN } from "@/data/dossier";
+import {
+  AFTER_CHAIN,
+  BEFORE_CHAIN,
+  BEFORE_ITEMS,
+  CONCEPTUAL_CHAIN,
+  CONCEPTUAL_CHAIN_LEAD,
+  CONCEPTUAL_CHAIN_NOTE,
+} from "@/data/dossier";
 
 /** BEFORE: six disconnected silos. */
 function BeforePanel() {
@@ -14,17 +21,15 @@ function BeforePanel() {
         </span>
       </div>
       <ul className="mt-6 grid grid-cols-2 gap-2.5">
-        {["Parcel Data", "Documents", "Case Files", "Payments", "R&R", "Office Records"].map(
-          (item) => (
-            <li
-              key={item}
-              className="flex items-center gap-2 rounded-md border border-dashed border-slate-300 bg-slate-50/60 px-3 py-3 text-[12.5px] font-medium text-slate-600"
-            >
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" aria-hidden />
-              {item}
-            </li>
-          ),
-        )}
+        {BEFORE_ITEMS.map((item) => (
+          <li
+            key={item}
+            className="flex items-center gap-2 rounded-md border border-dashed border-slate-300 bg-slate-50/60 px-3 py-3 text-[12.5px] font-medium text-slate-600"
+          >
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" aria-hidden />
+            {item}
+          </li>
+        ))}
       </ul>
       <p className="mt-6 border-t border-rule pt-5 text-[12.5px] leading-relaxed text-muted-foreground">
         Each silo has its own owner, its own file format and its own idea of where a case
@@ -69,7 +74,7 @@ function AfterPanel() {
 
         {/* hub → three branches */}
         <div className="mx-auto h-5 w-px bg-slate-300" aria-hidden />
-        <div className="relative mx-auto h-px w-[74%] bg-slate-300" aria-hidden />
+        <div className="mx-auto h-px w-[74%] bg-slate-300" aria-hidden />
         <div className="grid grid-cols-3 gap-2">
           {["Parcel", "Case", "Documents"].map((item) => (
             <div key={item} className="flex flex-col items-center">
@@ -77,18 +82,13 @@ function AfterPanel() {
               <div className="w-full rounded-md border border-navy-900/20 bg-white px-2 py-2.5 text-center shadow-[0_1px_2px_rgba(15,35,64,0.06)]">
                 <span className="label-caps text-navy-900">{item}</span>
               </div>
+              <div className="h-4 w-px bg-slate-300" aria-hidden />
             </div>
           ))}
         </div>
 
-        {/* three → compensation → r&r → audit */}
-        <div
-          className="mx-auto h-4 w-px bg-slate-300"
-          aria-hidden
-        />
-        <div className="mx-auto flex h-4 w-px items-center">
-          <div className="h-px w-[74%] bg-slate-300" aria-hidden />
-        </div>
+        {/* three converge → compensation → r&r → audit */}
+        <div className="mx-auto h-px w-[74%] bg-slate-300" aria-hidden />
         <div className="grid grid-cols-3">
           <div aria-hidden />
           <div className="flex flex-col items-center">
@@ -166,13 +166,38 @@ export function Solution() {
                     <Check className="h-3 w-3" aria-hidden />
                   </span>
                   <span className="text-[14px] font-medium text-navy-900">{s}</span>
-                  <span className="label-caps ml-auto text-slate-400">
+                  <span className="label-caps ml-auto text-slate-500">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </li>
               ))}
             </ol>
           </div>
+        </div>
+      </Reveal>
+
+      {/* ── The conceptual backbone ── */}
+      <Reveal delay={3}>
+        <div className="mt-6 rounded-lg border border-rule bg-white p-6 sm:p-7">
+          <p className="label-caps text-slate-400">The conceptual backbone</p>
+          <p className="mt-3 text-balance text-[17px] font-semibold leading-snug tracking-[-0.012em] text-navy-900 sm:text-[19px]">
+            {CONCEPTUAL_CHAIN_LEAD}
+          </p>
+          <ol className="mt-5 flex flex-wrap items-center gap-x-1.5 gap-y-2.5">
+            {CONCEPTUAL_CHAIN.map((step, i) => (
+              <li key={step} className="flex items-center gap-1.5">
+                {i > 0 ? (
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
+                ) : null}
+                <span className="label-caps rounded-md border border-navy-900/20 bg-navy-50 px-2.5 py-1.5 text-navy-900">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-5 border-t border-rule pt-4 text-pretty text-[13px] leading-relaxed text-muted-foreground">
+            {CONCEPTUAL_CHAIN_NOTE}
+          </p>
         </div>
       </Reveal>
     </Section>

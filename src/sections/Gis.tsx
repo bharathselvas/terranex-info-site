@@ -8,18 +8,31 @@ import { FlowChain } from "@/components/Flow";
 import { GIS_ANNOTATIONS, GIS_LAYERS, GIS_SPINE } from "@/data/dossier";
 
 /**
- * Annotation pins. Positions are percentage-based over the screenshot and are
- * hidden below `lg`, where the same information is presented as a plain list —
- * absolute positioning on a narrow screen would be guesswork.
+ * Markers drawn over the screenshot. Positions are percentage-based and derive
+ * from `GIS_ANNOTATIONS`, the same array that drives the desktop rail and the
+ * mobile list — one source of truth for labels, numbering and coordinates.
  */
-const PINS = [
-  { label: "Parcel Boundary", x: 46, y: 34, align: "left" as const },
-  { label: "Survey Number", x: 30, y: 52, align: "right" as const },
-  { label: "Acquisition Status", x: 68, y: 22, align: "right" as const },
-  { label: "Case Link", x: 72, y: 62, align: "left" as const },
-  { label: "R&R Status", x: 18, y: 70, align: "right" as const },
-  { label: "Owner / Record", x: 55, y: 82, align: "left" as const },
-];
+function AnnotationMarkers({ activeIndex }: { activeIndex: number | null }) {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {GIS_ANNOTATIONS.map((pin, i) => (
+        <span
+          key={pin.id}
+          role="img"
+          aria-label={`Annotation ${pin.number}: ${pin.label}`}
+          style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
+          className={`absolute flex h-[22px] w-[22px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white font-mono text-[9px] font-semibold leading-none shadow-[0_2px_6px_rgba(15,35,64,0.45)] transition-transform duration-200 ${
+            activeIndex === i
+              ? "scale-125 bg-saffron-500 text-white ring-2 ring-saffron-500/40"
+              : "bg-navy-900/90 text-white"
+          }`}
+        >
+          {String(pin.number).padStart(2, "0")}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export function Gis() {
   const [activePin, setActivePin] = useState<number | null>(null);
@@ -42,6 +55,7 @@ export function Gis() {
               note="Interactive parcel layer with status colouring"
               status="prototype"
               url="terranex · gis workstation"
+              overlay={<AnnotationMarkers activeIndex={activePin} />}
             >
               <div className="border-t border-rule bg-slate-50/70 px-4 py-3">
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -65,8 +79,8 @@ export function Gis() {
             aria-label="GIS annotation key"
             className="absolute right-0 top-10 hidden w-[124px] flex-col gap-1.5 lg:flex"
           >
-            {PINS.map((pin, i) => (
-              <li key={pin.label}>
+            {GIS_ANNOTATIONS.map((pin, i) => (
+              <li key={pin.id}>
                 <button
                   type="button"
                   onMouseEnter={() => setActivePin(i)}
@@ -83,7 +97,7 @@ export function Gis() {
                     aria-hidden
                     className={`font-mono text-[9px] ${activePin === i ? "text-saffron-600" : "text-slate-400"}`}
                   >
-                    {String(i + 1).padStart(2, "0")}
+                    {String(pin.number).padStart(2, "0")}
                   </span>
                   <span className="label-caps leading-tight">{pin.label}</span>
                 </button>
@@ -98,15 +112,15 @@ export function Gis() {
         <div className="mt-6 lg:hidden">
           <p className="label-caps mb-3 text-slate-400">What the map is showing</p>
           <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {GIS_ANNOTATIONS.map((item, i) => (
+            {GIS_ANNOTATIONS.map((item) => (
               <li
-                key={item}
+                key={item.id}
                 className="flex items-center gap-2 rounded-md border border-rule bg-white px-3 py-2.5 text-[12px] text-slate-600"
               >
                 <span className="font-mono text-[9px] text-slate-400">
-                  {String(i + 1).padStart(2, "0")}
+                  {String(item.number).padStart(2, "0")}
                 </span>
-                {item}
+                {item.label}
               </li>
             ))}
           </ul>

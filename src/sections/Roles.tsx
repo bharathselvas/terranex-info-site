@@ -1,6 +1,7 @@
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { BrowserFrame } from "@/components/ScreenshotFrame";
+import { StatusTag } from "@/components/StatusTag";
 import { ROLES, ROLE_SCOPE_NOTE } from "@/data/dossier";
 
 export function Roles() {
@@ -45,9 +46,12 @@ export function Roles() {
                   <h3 className="text-[15px] font-semibold leading-snug tracking-[-0.01em] text-navy-900">
                     {role.role}
                   </h3>
-                  <span className="label-caps shrink-0 rounded-sm border border-rule bg-slate-50 px-1.5 py-[3px] text-slate-500">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                  <div className="flex shrink-0 flex-col items-end gap-1.5">
+                    <span className="label-caps rounded-sm border border-rule bg-slate-50 px-1.5 py-[3px] text-slate-500">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <StatusTag status={role.status} />
+                  </div>
                 </div>
                 <p className="mt-2.5 text-pretty text-[13px] leading-relaxed text-muted-foreground">
                   {role.responsibility}

@@ -159,9 +159,9 @@ export function Cases() {
           <div className="grid content-start gap-5">
             <UIFragment
               src="/screenshots/case-pipeline.webp"
-              alt="Zoomed view of the Terranex project pipeline showing cases distributed across statutory stages."
+              alt="Terranex project pipeline showing acquisition cases distributed across the statutory stages."
               title="Project Pipeline"
-              note="Zoomed UI detail"
+              note="Cases across the statutory stages"
               status="prototype"
             />
             <div className="rounded-lg border border-rule bg-white p-5">

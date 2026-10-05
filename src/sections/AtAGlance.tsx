@@ -2,6 +2,7 @@ import { ArrowUpRight, FileText, Layers, Map as MapIcon, ScrollText, Wallet } fr
 import type { LucideIcon } from "lucide-react";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
+import { StatusTag } from "@/components/StatusTag";
 import { MODULES } from "@/data/dossier";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -41,9 +42,12 @@ export function AtAGlance() {
                     <span className="label-caps text-slate-400">0{i + 1}</span>
                   </div>
 
-                  <h3 className="mt-5 text-[17px] font-semibold leading-snug tracking-[-0.01em] text-navy-900">
-                    {mod.title}
-                  </h3>
+                  <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-2">
+                    <h3 className="text-[17px] font-semibold leading-snug tracking-[-0.01em] text-navy-900">
+                      {mod.title}
+                    </h3>
+                    <StatusTag status={mod.status} />
+                  </div>
                   <p className="mt-2.5 text-pretty text-[13.5px] leading-relaxed text-muted-foreground">
                     {mod.body}
                   </p>

@@ -3,9 +3,9 @@ import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { BrowserFrame } from "@/components/ScreenshotFrame";
 import { StatusTag } from "@/components/StatusTag";
-import { AUDIT_EVENTS, AUDIT_FIELDS } from "@/data/dossier";
+import { AUDIT_EVENTS, AUDIT_FIELDS, type AuditEvent } from "@/data/dossier";
 
-const KIND_STYLE: Record<string, { dot: string; label: string }> = {
+const KIND_STYLE: Partial<Record<AuditEvent["kind"], { dot: string; label: string }>> = {
   create: { dot: "bg-navy-900", label: "Create" },
   link: { dot: "bg-navy-600", label: "Link" },
   document: { dot: "bg-slate-400", label: "Document" },
@@ -16,11 +16,18 @@ const KIND_STYLE: Record<string, { dot: string; label: string }> = {
   close: { dot: "bg-saffron-500", label: "Closure" },
 };
 
+/** Unknown event kinds render with this neutral style instead of crashing. */
+const KIND_FALLBACK = { dot: "bg-slate-400", label: "Event" };
+
+function kindStyle(kind: AuditEvent["kind"]) {
+  return KIND_STYLE[kind] ?? KIND_FALLBACK;
+}
+
 function AuditTimeline() {
   return (
     <ol className="relative flex flex-col">
       {AUDIT_EVENTS.map((event, i) => {
-        const style = KIND_STYLE[event.kind];
+        const style = kindStyle(event.kind);
         return (
           <li key={`${event.time}-${event.title}`} className="relative flex gap-4 pb-5 last:pb-0">
             {/* Rail + node */}

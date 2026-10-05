@@ -112,18 +112,6 @@ export const BEFORE_ITEMS = [
   "Office Records",
 ];
 
-export type AfterNode = { id: string; label: string; depth: 0 | 1 | 2 | 3 };
-
-export const AFTER_NODES: AfterNode[] = [
-  { id: "terranex", label: "TERRANEX", depth: 0 },
-  { id: "parcel", label: "PARCEL", depth: 1 },
-  { id: "case", label: "CASE", depth: 1 },
-  { id: "documents", label: "DOCUMENTS", depth: 1 },
-  { id: "compensation", label: "COMPENSATION", depth: 2 },
-  { id: "rnr", label: "R&R", depth: 3 },
-  { id: "audit", label: "AUDIT TRAIL", depth: 3 },
-];
-
 /* ── Section 04 — At a glance ─────────────────────────────────────────── */
 
 export type Module = {
@@ -186,13 +174,29 @@ export const MODULES: Module[] = [
 
 /* ── Section 05 — GIS ─────────────────────────────────────────────────── */
 
-export const GIS_ANNOTATIONS = [
-  "Parcel Boundary",
-  "Survey Number",
-  "Acquisition Status",
-  "Owner / Record",
-  "Case Link",
-  "R&R Status",
+/**
+ * The single source of truth for the GIS screenshot annotations.
+ *
+ * Every presentation — the desktop annotation rail, the markers drawn over the
+ * screenshot, and the mobile list — derives from this array, so the numbering
+ * can never drift between them. `number` is the visible index; `x`/`y` are the
+ * marker position over the screenshot as a percentage of its width and height.
+ */
+export type GisAnnotation = {
+  id: string;
+  number: number;
+  label: string;
+  x: number;
+  y: number;
+};
+
+export const GIS_ANNOTATIONS: GisAnnotation[] = [
+  { id: "parcel-boundary", number: 1, label: "Parcel Boundary", x: 46, y: 34 },
+  { id: "survey-number", number: 2, label: "Survey Number", x: 30, y: 52 },
+  { id: "acquisition-status", number: 3, label: "Acquisition Status", x: 68, y: 22 },
+  { id: "owner-record", number: 4, label: "Owner / Record", x: 55, y: 82 },
+  { id: "case-link", number: 5, label: "Case Link", x: 72, y: 62 },
+  { id: "rnr-status", number: 6, label: "R&R Status", x: 18, y: 70 },
 ];
 
 export const GIS_SPINE = ["Parcel", "Case", "Documents", "Compensation", "R&R"];
@@ -618,13 +622,47 @@ export const FIELD_FLOW = [
   "Central Case",
 ];
 
-export const FIELD_CAPTURES = [
-  { src: "/screenshots/mobile-field-home.webp", alt: "Terranex field officer mobile home screen with assigned and completed task counts" },
-  { src: "/screenshots/mobile-field-map.webp", alt: "Terranex field map view listing assigned parcels with status" },
-  { src: "/screenshots/mobile-field-owner-verify.webp", alt: "Terranex field officer owner verification screen" },
-  { src: "/screenshots/mobile-field-capture.webp", alt: "Terranex field evidence photo capture screen" },
-  { src: "/screenshots/mobile-field-gps.webp", alt: "Terranex field GPS capture screen" },
-  { src: "/screenshots/mobile-field-assets.webp", alt: "Terranex field measurement and asset details screen" },
+export type FieldCapture = { src: string; alt: string; title: string };
+
+export const FIELD_CAPTURES: FieldCapture[] = [
+  { src: "/screenshots/mobile-field-home.webp", alt: "Terranex field officer mobile home screen with assigned and completed task counts", title: "Assigned work" },
+  { src: "/screenshots/mobile-field-map.webp", alt: "Terranex field map view listing assigned parcels with status", title: "Parcel lookup" },
+  { src: "/screenshots/mobile-field-owner-verify.webp", alt: "Terranex field officer owner verification screen", title: "Owner verify" },
+  { src: "/screenshots/mobile-field-capture.webp", alt: "Terranex field evidence photo capture screen", title: "Evidence capture" },
+  { src: "/screenshots/mobile-field-gps.webp", alt: "Terranex field GPS capture screen", title: "GPS capture" },
+  { src: "/screenshots/mobile-field-assets.webp", alt: "Terranex field measurement and asset details screen", title: "Measurements" },
+];
+
+export const FIELD_ON_DEVICE = [
+  "Home dashboard with derived case counts and today's tasks",
+  "Case list scoped to the officer's jurisdiction, with search and status filters",
+  "Case dossier — parcel, landowner on record, tasks, map, timeline, documents, evidence",
+  "9-step verification wizard with local auto-save",
+  "GPS fix and photo evidence attached to the parcel",
+  "Sync Center with pending / synced / failed counts, SYNC NOW and a retry schedule",
+];
+
+/**
+ * Dossier concept → actual fo-app screen.
+ *
+ * Screen names use the application's own terminology (tabs Home · Cases · Map ·
+ * Sync · More, plus the 9-step verification wizard). Every row is implemented in
+ * the Flutter field-officer client against its mock backend; production sign-in,
+ * device rollout, the live sync endpoint and real record/GIS integrations are
+ * not. No row is mapped where no screen exists.
+ */
+export type FieldAppMapRow = { concept: string; app: string };
+
+export const FIELD_APP_MAP: FieldAppMapRow[] = [
+  { concept: "Field Officer Login", app: "Prototype sign-in gate — pre-filled demo officer, enters offline, no credential check" },
+  { concept: "Assigned Cases", app: "Home dashboard + Cases tab — derived counts, today's tasks, search and status filters" },
+  { concept: "Case Details", app: "Case dossier — parcel, acquisition, landowner on record, tasks, timeline, documents, evidence" },
+  { concept: "Parcel / GIS", app: "Map tab — parcel chips, WKT boundary over map tiles, officer marker, OPEN CASE" },
+  { concept: "Documents", app: "Documents screen — ALL / VERIFIED / PENDING / MISSING filters with preview, per case" },
+  { concept: "Field Capture", app: "9-step wizard — Location, Parcel, Land Use, Structures, Cultivation, Occupant, Documents, Evidence, Review & declaration" },
+  { concept: "Sync / Offline", app: "Sync Center — on-device queue with pending / synced / failed counts, SYNC NOW and backoff retry" },
+  { concept: "Notifications", app: "Notifications inbox — unread badges with MARK ALL READ" },
+  { concept: "Profile / Settings", app: "More tab — officer profile and server URL config" },
 ];
 
 /* ── Section 13 — Architecture ────────────────────────────────────────── */
@@ -666,12 +704,12 @@ export const SECURITY = [
   },
   {
     title: "Server-Side Authorization",
-    body: "Identity and role decisions are enforced by the backend on every request, not trusted to the client.",
+    body: "Identity and role decisions are enforced by the backend on every request, not trusted to the client — specified for the target build and not yet connected.",
     status: "planned" as Status,
   },
   {
     title: "Audit Trail",
-    body: "State-changing actions write an immutable event carrying actor, role, jurisdiction, stage and source IP.",
+    body: "State-changing actions write one event carrying actor, role, jurisdiction, stage and source IP. The event structure and the audit history run in the prototype; tamper-proof retention does not.",
     status: "prototype" as Status,
   },
   {
@@ -687,7 +725,7 @@ export const SECURITY = [
 ];
 
 export const SECURITY_DISCLAIMER =
-  "No security certification is claimed. The controls above describe the access model designed and implemented in the prototype, and the enforcement points planned for the backend.";
+  "No security certification is claimed. The controls above describe the access model designed and implemented in the prototype, and the enforcement points planned for the backend. Audit events are represented and displayed today; server-side retention and immutability of those events belong to the target implementation.";
 
 /* ── Section 15 — Prototype vs implementation ─────────────────────────── */
 
@@ -711,11 +749,49 @@ export const TARGET_NEXT = [
   "DILRMP / ULPIN ownership integration",
   "PFMS sanction and disbursement integration",
   "PM Gati Shakti alignment ingestion",
-  "Field mobile deployment with offline capture and sync",
+  "Field mobile deployment to government devices against the production sync endpoint",
 ];
 
 export const DATA_STATEMENT =
   "Every figure, parcel boundary, survey number, owner and monetary value shown in this dossier is synthetic demonstration data. None of it is a government record.";
+
+/** Stack summary lines shown under the two PrototypeStatus columns. */
+export const PROTOTYPE_STACK_LINE =
+  "React 18 + TypeScript + Vite · Zustand in-memory stores · Leaflet · Recharts";
+export const TARGET_STACK_LINE = "PostgreSQL + PostGIS · API layer · server-side RBAC · object storage";
+
+/** What this build deliberately does not contain. */
+export const NOT_PRESENT = [
+  "No login or authentication",
+  "No backend or live database",
+  "No API calls of any kind",
+  "No live GIS or parcel service",
+  "No payment processing",
+  "No government system connection",
+  "No real-time data or analytics",
+  "No AI, OCR or chat assistant",
+];
+
+/**
+ * The capability matrix: one row per judge-relevant capability, classified with
+ * the same `Status` vocabulary used everywhere else on the site.
+ */
+export type CapabilityRow = { capability: string; status: Status };
+
+export const CAPABILITY_MATRIX: CapabilityRow[] = [
+  { capability: "Role-based interface across 11 roles", status: "prototype" },
+  { capability: "GIS parcel visualization", status: "prototype" },
+  { capability: "Acquisition case workflow", status: "prototype" },
+  { capability: "Document linking to case, stage and uploader", status: "prototype" },
+  { capability: "Audit history interface", status: "prototype" },
+  { capability: "17-stage statutory workflow model", status: "prototype" },
+  { capability: "Mobile field workflow", status: "prototype" },
+  { capability: "Persistent backend services", status: "planned" },
+  { capability: "PostGIS persistence", status: "planned" },
+  { capability: "Government system integrations", status: "planned" },
+  { capability: "Production authentication", status: "planned" },
+  { capability: "Real government datasets", status: "planned" },
+];
 
 /* ── Section 16 — Roadmap ─────────────────────────────────────────────── */
 
@@ -784,6 +860,28 @@ export const AFTER_CHAIN = [
   "Connected Workflow",
   "Traceable History",
 ];
+
+/**
+ * The conceptual backbone of Terranex: the parcel is the spatial anchor and
+ * every other record hangs off it, in order.
+ */
+export const CONCEPTUAL_CHAIN = [
+  "GIS Parcel",
+  "Survey Number",
+  "Owner / Record",
+  "Acquisition Case",
+  "Statutory Stage",
+  "Documents",
+  "Compensation",
+  "R&R",
+  "Audit Trail",
+];
+
+export const CONCEPTUAL_CHAIN_LEAD =
+  "A parcel becomes the spatial anchor for the entire acquisition case.";
+
+export const CONCEPTUAL_CHAIN_NOTE =
+  "Statutory stages govern the case's progression. Documents, compensation and rehabilitation stay attached to it as obligations, and every action on it lands in the audit history.";
 
 /* ── Section 18 — Final vision ────────────────────────────────────────── */
 

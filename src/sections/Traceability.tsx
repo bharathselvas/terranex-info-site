@@ -6,21 +6,18 @@ import { TRACE_EDGES, TRACE_NODES } from "@/data/dossier";
 /**
  * The relationship diagram is drawn in a single SVG coordinate space so the
  * connectors and the node boxes can never drift apart: every box is measured
- * from the same grid the lines are drawn on.
+ * from the same grid the lines are drawn on. Origins are derived from the
+ * `col`/`row` grid in `TRACE_NODES`, so the layout has one source of truth.
  */
 const BOX_W = 190;
 const BOX_H = 52;
+const COL_X = (col: number) => 40 + col * 112.5;
+const ROW_Y = (row: number) => 8 + row * 100;
 
-/** Node origins in the SVG's user units. */
-const BOX: Record<string, { x: number; y: number }> = {
-  parcel:      { x: 265, y: 8 },
-  case:        { x: 40,  y: 108 },
-  documents:   { x: 265, y: 108 },
-  ownership:   { x: 490, y: 108 },
-  compensation:{ x: 40,  y: 208 },
-  rnr:         { x: 490, y: 208 },
-  audit:       { x: 265, y: 308 },
-};
+/** Node origins in the SVG's user units, derived from the dossier grid. */
+const BOX: Record<string, { x: number; y: number }> = Object.fromEntries(
+  TRACE_NODES.map((node) => [node.id, { x: COL_X(node.col), y: ROW_Y(node.row) }]),
+);
 
 const FILL: Record<string, string> = {
   parcel: "#0F2340",
@@ -79,16 +76,6 @@ function link(a: string, b: string) {
   return `M${ax},${ay} V${mid} H${shoulder} V${by}`;
 }
 
-const LINKS: [string, string][] = [
-  ["parcel", "case"],
-  ["parcel", "documents"],
-  ["parcel", "ownership"],
-  ["case", "compensation"],
-  ["case", "rnr"],
-  ["compensation", "audit"],
-  ["rnr", "audit"],
-];
-
 function TraceDiagram() {
   return (
     <div className="rounded-xl border border-rule bg-white p-5 shadow-[0_1px_2px_rgba(15,35,64,0.05)] sm:p-8">
@@ -100,7 +87,7 @@ function TraceDiagram() {
       >
         {/* Connectors first so the node boxes sit on top of them. */}
         <g fill="none" stroke="#CBD5E1" strokeWidth="1.5">
-          {LINKS.map(([a, b]) => (
+          {TRACE_EDGES.map(([a, b]) => (
             <path key={`${a}-${b}`} d={link(a, b)} />
           ))}
         </g>

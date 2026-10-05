@@ -85,6 +85,7 @@ export function BrowserFrame({
   eager = false,
   className = "",
   frameTone = "light",
+  overlay,
   children,
 }: {
   src: string;
@@ -96,6 +97,8 @@ export function BrowserFrame({
   eager?: boolean;
   className?: string;
   frameTone?: "light" | "dark";
+  /** Rendered over the screenshot itself, positioned against the image box. */
+  overlay?: ReactNode;
   children?: ReactNode;
 }) {
   return (
@@ -104,16 +107,19 @@ export function BrowserFrame({
     >
       <ChromeBar url={url ?? "terranex.gov.in / workspace"} tone={frameTone} />
       <div className="bg-white">
-        <img
-          src={src}
-          alt={alt}
-          width={DESKTOP_SHOT.w}
-          height={DESKTOP_SHOT.h}
-          loading={eager ? "eager" : "lazy"}
-          decoding={eager ? "sync" : "async"}
-          fetchPriority={eager ? "high" : "auto"}
-          className="block h-auto w-full"
-        />
+        <div className="relative">
+          <img
+            src={src}
+            alt={alt}
+            width={DESKTOP_SHOT.w}
+            height={DESKTOP_SHOT.h}
+            loading={eager ? "eager" : "lazy"}
+            decoding={eager ? "sync" : "async"}
+            fetchPriority={eager ? "high" : "auto"}
+            className="block h-auto w-full"
+          />
+          {overlay}
+        </div>
         {children}
       </div>
       <Caption title={title} note={note} status={status} tone={frameTone} />
@@ -165,8 +171,8 @@ export function PhoneFrame({
 /* ── Zoomed UI fragment ───────────────────────────────────────────────── */
 
 /**
- * A deliberately enlarged crop of the interface. Used sparingly, where a
- * judge needs to read fine detail that would be illegible in a full screen.
+ * A framed detail of the interface. Used where a judge should read one screen
+ * closely, with a caption that carries the same status tag as the full frames.
  */
 export function UIFragment({
   src,
@@ -174,7 +180,6 @@ export function UIFragment({
   title,
   note,
   status,
-  focus = "center",
   className = "",
 }: {
   src: string;
@@ -182,7 +187,6 @@ export function UIFragment({
   title: string;
   note?: string;
   status?: StatusTagProps["status"];
-  focus?: string;
   className?: string;
 }) {
   return (
@@ -202,50 +206,8 @@ export function UIFragment({
           loading="lazy"
           decoding="async"
           className="block h-auto w-full"
-          style={{ clipPath: focus }}
         />
       </div>
-      <Caption title={title} note={note} status={status} />
-    </figure>
-  );
-}
-
-/* ── Full-width product panel (no chrome, maximum presence) ───────────── */
-
-export function ProductPanel({
-  src,
-  alt,
-  title,
-  note,
-  status,
-  eager = false,
-  className = "",
-  children,
-}: {
-  src: string;
-  alt: string;
-  title: string;
-  note?: string;
-  status?: StatusTagProps["status"];
-  eager?: boolean;
-  className?: string;
-  children?: ReactNode;
-}) {
-  return (
-    <figure
-      className={`overflow-hidden rounded-xl border border-rule bg-white shadow-[0_2px_4px_rgba(15,35,64,0.05),0_24px_60px_-28px_rgba(15,35,64,0.4)] ${className}`}
-    >
-      <img
-        src={src}
-        alt={alt}
-        width={DESKTOP_SHOT.w}
-        height={DESKTOP_SHOT.h}
-        loading={eager ? "eager" : "lazy"}
-        decoding={eager ? "sync" : "async"}
-        fetchPriority={eager ? "high" : "auto"}
-        className="block h-auto w-full"
-      />
-      {children}
       <Caption title={title} note={note} status={status} />
     </figure>
   );

@@ -3,7 +3,7 @@ import { Reveal } from "@/components/Reveal";
 import { PhoneFrame, BrowserFrame } from "@/components/ScreenshotFrame";
 import { StatusTag } from "@/components/StatusTag";
 import { FlowChain } from "@/components/Flow";
-import { FIELD_CAPTURES, FIELD_FLOW } from "@/data/dossier";
+import { FIELD_APP_MAP, FIELD_CAPTURES, FIELD_FLOW, FIELD_ON_DEVICE } from "@/data/dossier";
 
 export function Mobile() {
   return (
@@ -23,16 +23,7 @@ export function Mobile() {
                 key={shot.src}
                 src={shot.src}
                 alt={shot.alt}
-                title={
-                  [
-                    "Assigned work",
-                    "Parcel lookup",
-                    "Owner verify",
-                    "Evidence capture",
-                    "GPS capture",
-                    "Measurements",
-                  ][i] ?? "Field screen"
-                }
+                title={shot.title}
                 status="prototype"
                 eager={i === 0}
                 className={i === 0 ? "col-span-2 sm:col-span-3" : ""}
@@ -50,14 +41,7 @@ export function Mobile() {
             <div className="rounded-lg border border-rule bg-white p-5">
               <p className="label-caps text-navy-900">What runs on the device</p>
               <ul className="mt-3 flex flex-col gap-2">
-                {[
-                  "Assigned task list scoped to the officer's circle",
-                  "Parcel lookup by survey number, parcel ID, case or village",
-                  "Owner verification against the recorded holding",
-                  "Photo capture and GPS coordinates attached to the parcel",
-                  "Measurement and observation recording",
-                  "Sync status, with pending records visible to the officer",
-                ].map((item) => (
+                {FIELD_ON_DEVICE.map((item) => (
                   <li key={item} className="flex gap-2.5 text-[13px] leading-relaxed text-slate-700">
                     <span
                       className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-saffron-500"
@@ -69,17 +53,31 @@ export function Mobile() {
               </ul>
             </div>
 
+            <div className="rounded-lg border border-rule bg-white p-5">
+              <p className="label-caps text-navy-900">What the app actually contains</p>
+              <dl className="mt-3 flex flex-col gap-3">
+                {FIELD_APP_MAP.map((row) => (
+                  <div key={row.concept} className="flex flex-col gap-1 border-b border-rule/60 pb-3 last:border-b-0 last:pb-0">
+                    <dt className="text-[12.5px] font-semibold text-navy-900">{row.concept}</dt>
+                    <dd className="font-mono text-[11.5px] leading-relaxed text-slate-600">{row.app}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
             <div className="rounded-lg border border-saffron-500/30 bg-saffron-50/70 p-5">
               <div className="flex items-center gap-2.5">
                 <StatusTag status="prototype" />
                 <StatusTag status="planned" />
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-slate-700">
-                The field screens shown here are the Flutter field-officer application, running
-                against synthetic demonstration data. It is a working client, not a deployed
-                service. Offline capture and durable background sync are designed and specified,
-                and are not yet implemented — the prototype shows the sync state, not a working
-                offline queue.
+                The field loop above is implemented in the Terranex Flutter field-officer
+                app — an offline-first client with a local store, a 9-step verification
+                wizard, GPS and photo evidence, and a Sync Center queue with retry —
+                running against synthetic demonstration data with its mock backend on.
+                It is a working client, not a deployed service. Production sign-in,
+                government device rollout, the live sync endpoint and real record/GIS
+                integrations belong to the target build.
               </p>
             </div>
           </div>

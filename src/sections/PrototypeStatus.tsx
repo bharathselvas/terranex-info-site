@@ -2,7 +2,16 @@ import { Check, ArrowRight, Info } from "lucide-react";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
 import { BrowserFrame } from "@/components/ScreenshotFrame";
-import { DATA_STATEMENT, PROTOTYPE_NOW, TARGET_NEXT } from "@/data/dossier";
+import { StatusTag } from "@/components/StatusTag";
+import {
+  CAPABILITY_MATRIX,
+  DATA_STATEMENT,
+  NOT_PRESENT,
+  PROTOTYPE_NOW,
+  PROTOTYPE_STACK_LINE,
+  TARGET_NEXT,
+  TARGET_STACK_LINE,
+} from "@/data/dossier";
 
 export function PrototypeStatus() {
   return (
@@ -12,7 +21,44 @@ export function PrototypeStatus() {
       title="Where We Are Today. Where We're Going Next."
       deck="A judge should be able to tell exactly what is running and what is designed. This section is the honest boundary between the two."
     >
-      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+      {/* ── Capability matrix ── */}
+      <Reveal>
+        <div className="overflow-hidden rounded-lg border border-rule bg-white shadow-[0_1px_2px_rgba(15,35,64,0.05)]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-rule bg-slate-50/70 px-5 py-4">
+            <h3 className="text-[15.5px] font-semibold text-navy-900">What works today</h3>
+            <p className="label-caps text-slate-400">Capability · implementation status</p>
+          </div>
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-rule">
+                <th scope="col" className="label-caps px-5 py-2.5 text-slate-500">
+                  Capability
+                </th>
+                <th
+                  scope="col"
+                  className="label-caps w-[140px] px-5 py-2.5 text-slate-500 sm:w-[168px]"
+                >
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-rule/70">
+              {CAPABILITY_MATRIX.map((row) => (
+                <tr key={row.capability}>
+                  <td className="px-5 py-3 text-[13.5px] leading-snug text-slate-700">
+                    {row.capability}
+                  </td>
+                  <td className="px-5 py-3">
+                    <StatusTag status={row.status} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Reveal>
+
+      <div className="mt-5 grid gap-5 lg:grid-cols-2 lg:gap-6">
         {/* ── Today ── */}
         <Reveal>
           <div className="flex h-full flex-col rounded-lg border-2 border-success/30 bg-white">
@@ -36,7 +82,7 @@ export function PrototypeStatus() {
               ))}
             </ul>
             <p className="border-t border-rule bg-slate-50/70 px-5 py-3.5 font-mono text-[11px] text-slate-500">
-              React 18 + TypeScript + Vite · Zustand in-memory stores · Leaflet · Recharts
+              {PROTOTYPE_STACK_LINE}
             </p>
           </div>
         </Reveal>
@@ -62,7 +108,7 @@ export function PrototypeStatus() {
               ))}
             </ul>
             <p className="border-t border-rule bg-slate-50/70 px-5 py-3.5 font-mono text-[11px] text-slate-500">
-              PostgreSQL + PostGIS · API layer · server-side RBAC · object storage
+              {TARGET_STACK_LINE}
             </p>
           </div>
         </Reveal>
@@ -79,16 +125,7 @@ export function PrototypeStatus() {
               </p>
             </div>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {[
-                "No login or authentication",
-                "No backend or live database",
-                "No API calls of any kind",
-                "No live GIS or parcel service",
-                "No payment processing",
-                "No government system connection",
-                "No real-time data or analytics",
-                "No AI, OCR or chat assistant",
-              ].map((item) => (
+              {NOT_PRESENT.map((item) => (
                 <li
                   key={item}
                   className="flex items-center gap-2.5 rounded-md border border-rule bg-slate-50/70 px-3 py-2.5 text-[12.5px] text-slate-600"

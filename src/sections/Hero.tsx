@@ -46,7 +46,7 @@ export function Hero() {
                 {HERO_META.map((item, i) => (
                   <li key={item} className="flex items-center gap-2">
                     {i > 0 ? (
-                      <span className="text-saffron-500/70" aria-hidden>
+                      <span className="text-saffron-500" aria-hidden>
                         •
                       </span>
                     ) : null}
@@ -80,8 +80,9 @@ export function Hero() {
 
             <Reveal delay={5}>
               <p className="mt-8 max-w-md border-l-2 border-white/15 pl-3.5 text-[12.5px] leading-relaxed text-white/70">
-                Frontend prototype with synthetic demonstration data. Every parcel, owner and
-                figure shown is fabricated for evaluation — none of it is a government record.
+                All screens shown are functional frontend prototypes using synthetic demonstration
+                data. Government datasets, persistent backend services and production integrations
+                are part of the target implementation unless explicitly marked otherwise.
               </p>
             </Reveal>
           </div>

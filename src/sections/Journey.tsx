@@ -62,7 +62,7 @@ export function Journey() {
                     src={step.image}
                     alt={step.imageAlt}
                     title={step.title}
-                    note={`Step ${step.n} of 10`}
+                    note={`Step ${step.n} of ${JOURNEY.length}`}
                     status={step.status}
                     url={`terranex · ${step.title.toLowerCase()}`}
                   />
