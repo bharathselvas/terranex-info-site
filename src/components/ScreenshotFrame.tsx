@@ -103,7 +103,7 @@ export function BrowserFrame({
 }) {
   return (
     <figure
-      className={`group overflow-hidden rounded-lg border border-rule bg-white shadow-[0_1px_2px_rgba(15,35,64,0.05),0_12px_32px_-16px_rgba(15,35,64,0.28)] ${className}`}
+      className={`frame-lift group overflow-hidden rounded-xl border border-rule bg-white shadow-[0_1px_2px_rgba(15,35,64,0.06),0_16px_40px_-20px_rgba(15,35,64,0.35)] ring-1 ring-navy-900/[0.04] ${className}`}
     >
       <ChromeBar url={url ?? "terranex.gov.in / workspace"} tone={frameTone} />
       <div className="bg-white">
@@ -145,8 +145,8 @@ export function PhoneFrame({
   eager?: boolean;
 }) {
   return (
-    <figure className={`flex flex-col items-center ${className}`}>
-      <div className="relative w-full max-w-[260px] rounded-[26px] border border-navy-900/15 bg-navy-900 p-[7px] shadow-[0_18px_40px_-18px_rgba(15,35,64,0.55)]">
+    <figure className={`frame-lift flex flex-col items-center ${className}`}>
+      <div className="relative w-full max-w-[260px] rounded-[28px] border border-navy-900/20 bg-navy-900 p-[8px] shadow-[0_24px_48px_-20px_rgba(15,35,64,0.6)] ring-1 ring-navy-900/10">
         <span className="absolute left-1/2 top-[13px] z-10 h-[5px] w-[52px] -translate-x-1/2 rounded-full bg-navy-950/80" aria-hidden />
         <div className="overflow-hidden rounded-[20px] bg-white">
           <img

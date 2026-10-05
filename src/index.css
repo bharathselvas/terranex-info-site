@@ -119,6 +119,28 @@
     background-size: 22px 22px;
   }
 
+  /* Horizontal snap-scroll strip for the backbone chain on small screens.
+     The scrollbar is hidden but scrolling (touch, wheel, keyboard) still works. */
+  .chain-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .chain-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Premium evidence treatment: frames lift almost imperceptibly on hover. */
+  .frame-lift {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (hover: hover) {
+    .frame-lift:hover {
+      transform: translateY(-3px);
+    }
+  }
+
   /* Reveal-on-scroll primitive. `--i` drives the stagger index. */
   .reveal {
     opacity: 0;

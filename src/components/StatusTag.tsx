@@ -10,6 +10,13 @@ const TONE: Record<string, string> = {
   slate: "border-slate-300 bg-slate-50 text-slate-600",
 };
 
+const DOT: Record<string, string> = {
+  navy: "bg-navy-900",
+  saffron: "bg-saffron-500",
+  green: "bg-success",
+  slate: "bg-slate-400",
+};
+
 /**
  * The honesty primitive.
  *
@@ -23,6 +30,7 @@ export function StatusTag({ status, className = "", withTitle = true }: StatusTa
       className={`inline-flex items-center gap-1.5 rounded-sm border px-1.5 py-[3px] font-mono text-[9.5px] font-medium uppercase leading-none tracking-[0.14em] ${TONE[meta.tone]} ${className}`}
       title={withTitle ? `${meta.title} — ${meta.blurb}` : undefined}
     >
+      <span aria-hidden className={`h-1.5 w-1.5 shrink-0 rounded-full ${DOT[meta.tone]}`} />
       {meta.label}
     </span>
   );

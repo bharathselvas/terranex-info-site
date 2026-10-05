@@ -2,6 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import { Menu, Shield, X } from "lucide-react";
 import { NAV_ITEMS } from "@/data/dossier";
 
+/**
+ * Presentation-only grouping of the existing anchors so a judge can see the
+ * dossier's structure in the drawer. Same ids, same labels, same order —
+ * nothing added, nothing removed.
+ */
+const NAV_GROUPS: { label: string; ids: string[] }[] = [
+  { label: "Overview", ids: ["problem", "solution"] },
+  { label: "Platform", ids: ["gis", "cases", "documents"] },
+  { label: "Operations", ids: ["workflow"] },
+  { label: "Technical", ids: ["architecture", "roadmap"] },
+];
+
+const NAV_BY_ID = new Map(NAV_ITEMS.map((item) => [item.id, item]));
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
@@ -192,25 +206,38 @@ export function Navbar() {
               </button>
             </div>
             <ul className="flex-1 overflow-y-auto px-3 py-3">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      go(item.id);
-                    }}
-                    className={`flex items-center justify-between rounded-md px-3 py-3 text-[15px] font-medium transition-colors ${
-                      active === item.id
-                        ? "bg-navy-50 text-navy-900"
-                        : "text-slate-700 hover:bg-slate-50"
-                    }`}
-                  >
-                    {item.label}
-                    {active === item.id ? (
-                      <span className="h-1.5 w-1.5 rounded-full bg-saffron-500" aria-hidden />
-                    ) : null}
-                  </a>
+              {NAV_GROUPS.map((group) => (
+                <li key={group.label}>
+                  <p className="label-caps px-3 pb-1.5 pt-3 text-slate-400 first:pt-1">
+                    {group.label}
+                  </p>
+                  <ul>
+                    {group.ids.map((id) => {
+                      const item = NAV_BY_ID.get(id);
+                      if (!item) return null;
+                      return (
+                        <li key={item.id}>
+                          <a
+                            href={`#${item.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              go(item.id);
+                            }}
+                            className={`flex items-center justify-between rounded-md px-3 py-3 text-[15px] font-medium transition-colors ${
+                              active === item.id
+                                ? "bg-navy-50 text-navy-900"
+                                : "text-slate-700 hover:bg-slate-50"
+                            }`}
+                          >
+                            {item.label}
+                            {active === item.id ? (
+                              <span className="h-1.5 w-1.5 rounded-full bg-saffron-500" aria-hidden />
+                            ) : null}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </li>
               ))}
             </ul>

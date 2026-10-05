@@ -151,7 +151,7 @@ export function Gis() {
             <p className="label-caps mb-5 text-slate-400">
               Everything downstream of a parcel
             </p>
-            <FlowChain steps={GIS_SPINE} />
+            <FlowChain steps={GIS_SPINE} numbered />
             <p className="mt-6 text-[12.5px] leading-relaxed text-muted-foreground">
               The prototype renders parcels from a synthetic cadastral generator and an
               OpenStreetMap basemap. It is a working interface, not a live connection to a

@@ -1,6 +1,7 @@
 import { ArrowRight, Check } from "lucide-react";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/Reveal";
+import { BackboneChain } from "@/components/Flow";
 import {
   AFTER_CHAIN,
   BEFORE_CHAIN,
@@ -183,18 +184,7 @@ export function Solution() {
           <p className="mt-3 text-balance text-[17px] font-semibold leading-snug tracking-[-0.012em] text-navy-900 sm:text-[19px]">
             {CONCEPTUAL_CHAIN_LEAD}
           </p>
-          <ol className="mt-5 flex flex-wrap items-center gap-x-1.5 gap-y-2.5">
-            {CONCEPTUAL_CHAIN.map((step, i) => (
-              <li key={step} className="flex items-center gap-1.5">
-                {i > 0 ? (
-                  <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden />
-                ) : null}
-                <span className="label-caps rounded-md border border-navy-900/20 bg-navy-50 px-2.5 py-1.5 text-navy-900">
-                  {step}
-                </span>
-              </li>
-            ))}
-          </ol>
+          <BackboneChain steps={CONCEPTUAL_CHAIN} className="mt-5" />
           <p className="mt-5 border-t border-rule pt-4 text-pretty text-[13px] leading-relaxed text-muted-foreground">
             {CONCEPTUAL_CHAIN_NOTE}
           </p>

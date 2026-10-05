@@ -6,11 +6,14 @@ export function FlowChain({
   steps,
   orientation = "vertical",
   tone = "light",
+  numbered = false,
   className = "",
 }: {
   steps: string[];
   orientation?: "vertical" | "horizontal";
   tone?: "light" | "dark";
+  /** Prefix each stage with its 01-based position — used where the order itself is the message. */
+  numbered?: boolean;
   className?: string;
 }) {
   const dark = tone === "dark";
@@ -28,12 +31,22 @@ export function FlowChain({
             }`}
           >
             <div
-              className={`label-caps flex items-center justify-center rounded-md border px-3 py-2.5 text-center leading-tight ${
+              className={`label-caps flex items-center justify-center gap-2.5 rounded-md border px-3 py-2.5 text-center leading-tight ${
                 dark
                   ? "border-white/15 bg-white/5 text-white/85"
                   : "border-rule bg-white text-navy-900 shadow-[0_1px_2px_rgba(15,35,64,0.05)]"
               } ${orientation === "vertical" ? "w-full" : "w-full"}`}
             >
+              {numbered ? (
+                <span
+                  aria-hidden
+                  className={`font-mono text-[9px] font-semibold tracking-[0.1em] ${
+                    dark ? "text-saffron-500" : "text-saffron-600"
+                  }`}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              ) : null}
               {step}
             </div>
             {!last ? (
@@ -53,6 +66,68 @@ export function FlowChain({
                     dark ? "border-white/30" : "border-slate-400"
                   } ${orientation === "vertical" ? "rotate-45" : "rotate-45"}`}
                 />
+              </span>
+            ) : null}
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/**
+ * The Terranex backbone: Parcel → Case → … → Audit as a numbered visual chain.
+ *
+ * Desktop renders one connected row with a continuous spine behind the nodes.
+ * Small screens get a horizontal snap-scroll strip instead of a squashed row,
+ * so every stage stays legible and nothing pushes the document sideways.
+ */
+export function BackboneChain({
+  steps,
+  tone = "light",
+  className = "",
+}: {
+  steps: string[];
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  const dark = tone === "dark";
+  return (
+    <ol
+      aria-label="The Terranex backbone"
+      className={`chain-scroll -mx-1 flex snap-x snap-mandatory gap-0 overflow-x-auto px-1 pb-1 lg:mx-0 lg:snap-none lg:overflow-visible lg:px-0 ${className}`}
+    >
+      {steps.map((step, i) => {
+        const last = i === steps.length - 1;
+        return (
+          <li
+            key={step}
+            className="flex min-w-[128px] flex-1 snap-start items-stretch sm:min-w-[140px] lg:min-w-0"
+          >
+            <div className="flex w-full flex-col items-center">
+              <span
+                aria-hidden
+                className={`flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[10px] font-semibold ${
+                  dark
+                    ? "border-saffron-500/50 bg-saffron-500/10 text-saffron-500"
+                    : "border-navy-900/25 bg-navy-50 text-navy-900"
+                }`}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span
+                className={`label-caps mt-2.5 rounded-md border px-2.5 py-2 text-center leading-snug ${
+                  dark
+                    ? "border-white/15 bg-white/5 text-white/90"
+                    : "border-rule bg-white text-navy-900 shadow-[0_1px_2px_rgba(15,35,64,0.06)]"
+                }`}
+              >
+                {step}
+              </span>
+            </div>
+            {!last ? (
+              <span aria-hidden className="flex w-4 shrink-0 items-center justify-center sm:w-6">
+                <span className={`h-px w-full ${dark ? "bg-white/25" : "bg-slate-300"}`} />
               </span>
             ) : null}
           </li>

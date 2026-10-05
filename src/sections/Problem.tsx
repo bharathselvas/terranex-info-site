@@ -18,7 +18,7 @@ export function Problem() {
     >
       <Reveal>
         <p className="label-caps mb-4 text-slate-400">The chain every acquisition travels</p>
-        <FlowChain steps={PROBLEM_CHAIN} />
+        <FlowChain steps={PROBLEM_CHAIN} numbered />
       </Reveal>
 
       <Reveal delay={1}>

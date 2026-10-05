@@ -43,7 +43,7 @@ export function Cases() {
       <Reveal delay={1}>
         <div className="mt-16">
           <p className="label-caps mb-5 text-slate-400">The case lifecycle</p>
-          <FlowChain steps={CASE_LIFECYCLE} />
+          <FlowChain steps={CASE_LIFECYCLE} numbered />
         </div>
       </Reveal>
 

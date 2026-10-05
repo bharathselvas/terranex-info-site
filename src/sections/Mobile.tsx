@@ -3,7 +3,49 @@ import { Reveal } from "@/components/Reveal";
 import { PhoneFrame, BrowserFrame } from "@/components/ScreenshotFrame";
 import { StatusTag } from "@/components/StatusTag";
 import { FlowChain } from "@/components/Flow";
-import { FIELD_APP_MAP, FIELD_CAPTURES, FIELD_FLOW, FIELD_ON_DEVICE } from "@/data/dossier";
+import { FIELD_APP_MAP, FIELD_CAPTURES, FIELD_FLOW, FIELD_ON_DEVICE, HERO_META } from "@/data/dossier";
+
+/**
+ * One case-centric system, two operational surfaces. Every label comes from
+ * dossier data: the web surface reuses HERO_META, the field surface reuses
+ * FIELD_FLOW, and both converge on the shared case.
+ */
+function SurfacesDuo() {
+  const field = FIELD_FLOW.slice(1, 5);
+  return (
+    <div className="grid items-stretch gap-3 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+      <div className="rounded-lg border border-rule bg-slate-50/60 p-5">
+        <p className="label-caps text-navy-900">Web platform</p>
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {HERO_META.map((item) => (
+            <li
+              key={item}
+              className="rounded-sm border border-navy-900/15 bg-white px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-navy-900"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="flex items-center justify-center rounded-lg border border-saffron-500/40 bg-saffron-50 px-5 py-3">
+        <span className="label-caps whitespace-nowrap text-saffron-600">Shared case</span>
+      </div>
+      <div className="rounded-lg border border-rule bg-slate-50/60 p-5">
+        <p className="label-caps text-navy-900">Field mobile</p>
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {field.map((item) => (
+            <li
+              key={item}
+              className="rounded-sm border border-navy-900/15 bg-white px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-navy-900"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 export function Mobile() {
   return (
@@ -14,7 +56,10 @@ export function Mobile() {
       deck="Most of the evidence in a land acquisition is produced in a village, by someone holding a phone. Terranex gives the field officer the same case the Collector is looking at — and sends the result back to it."
       tone="white"
     >
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-14">
+      <Reveal>
+        <SurfacesDuo />
+      </Reveal>
+      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-14">
         {/* ── Phone set ── */}
         <Reveal>
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3">
@@ -35,7 +80,7 @@ export function Mobile() {
         {/* ── Explanation ── */}
         <Reveal delay={1}>
           <p className="label-caps mb-5 text-slate-400">The field loop</p>
-          <FlowChain steps={FIELD_FLOW} />
+          <FlowChain steps={FIELD_FLOW} numbered />
 
           <div className="mt-8 space-y-4">
             <div className="rounded-lg border border-rule bg-white p-5">

@@ -1,7 +1,58 @@
-import { ArrowDown, Network } from "lucide-react";
-import { HERO_META } from "@/data/dossier";
+import { ArrowDown, ArrowRight, Network } from "lucide-react";
+import { CONCEPTUAL_CHAIN, FIELD_FLOW, HERO_META } from "@/data/dossier";
 import { BrowserFrame } from "@/components/ScreenshotFrame";
+import { BackboneChain } from "@/components/Flow";
 import { Reveal } from "@/components/Reveal";
+
+/** Existing anchors only — the fastest honest path through the dossier. */
+const JUDGE_PATH = [
+  { href: "#problem", label: "Problem", note: "Why it matters" },
+  { href: "#gis", label: "GIS", note: "Parcel first" },
+  { href: "#cases", label: "Cases", note: "The dossier" },
+  { href: "#mobile", label: "Field", note: "Mobile app" },
+  { href: "#status", label: "Readiness", note: "Built vs planned" },
+];
+
+/** One case-centric system, two operational surfaces — labels only, from dossier data. */
+function DuoStrip() {
+  const web = HERO_META;
+  const field = FIELD_FLOW.slice(1, 5);
+  return (
+    <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:items-stretch">
+      <div className="rounded-lg border border-white/12 bg-white/[0.04] p-4">
+        <p className="label-caps text-saffron-500">Web platform</p>
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {web.map((item) => (
+            <li
+              key={item}
+              className="rounded-sm border border-white/12 bg-white/[0.05] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-white/80"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="flex items-center justify-center gap-2 rounded-lg border border-saffron-500/30 bg-saffron-500/10 px-4 py-3 sm:flex-col sm:gap-1">
+        <span aria-hidden className="hidden h-6 w-px bg-saffron-500/50 sm:block" />
+        <span className="label-caps whitespace-nowrap text-white">Shared case</span>
+        <span aria-hidden className="hidden h-6 w-px bg-saffron-500/50 sm:block" />
+      </div>
+      <div className="rounded-lg border border-white/12 bg-white/[0.04] p-4">
+        <p className="label-caps text-saffron-500">Field mobile</p>
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {field.map((item) => (
+            <li
+              key={item}
+              className="rounded-sm border border-white/12 bg-white/[0.05] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-white/80"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 export function Hero() {
   return (
@@ -104,6 +155,59 @@ export function Hero() {
               frameTone="dark"
               className="border-white/12 bg-navy-950 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.7)]"
             />
+          </Reveal>
+        </div>
+
+        {/* ── The backbone: the central visual story of the dossier ── */}
+        <Reveal delay={3}>
+          <div className="mt-14 rounded-xl border border-white/12 bg-navy-950/70 p-5 sm:p-7">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <p className="label-caps text-saffron-500">The Terranex backbone</p>
+              <p className="font-mono text-[10.5px] text-white/50">
+                Parcel → Case → Stage → Documents → Compensation → R&amp;R → Audit
+              </p>
+            </div>
+            <BackboneChain steps={CONCEPTUAL_CHAIN} tone="dark" className="mt-6" />
+          </div>
+        </Reveal>
+
+        {/* ── Two surfaces, one shared case + the 60-second path ── */}
+        <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+          <Reveal delay={4}>
+            <DuoStrip />
+          </Reveal>
+          <Reveal delay={5}>
+            <nav
+              aria-label="Understand Terranex in 60 seconds"
+              className="h-full rounded-lg border border-white/12 bg-white/[0.04] p-4"
+            >
+              <p className="label-caps flex items-center gap-2 text-white/85">
+                Understand Terranex in 60 seconds
+                <ArrowDown className="h-3.5 w-3.5 text-saffron-500" aria-hidden />
+              </p>
+              <ol className="mt-3 flex flex-col gap-1">
+                {JUDGE_PATH.map((step, i) => (
+                  <li key={step.href}>
+                    <a
+                      href={step.href}
+                      className="group flex items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-white/[0.06]"
+                    >
+                      <span aria-hidden className="font-mono text-[10px] text-saffron-500">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-[13.5px] font-medium text-white/90 group-hover:text-white">
+                        {step.label}
+                      </span>
+                      <span className="text-[12px] text-white/50">{step.note}</span>
+                      <ArrowRight
+                        className="ml-auto h-3.5 w-3.5 text-white/30 transition-transform group-hover:translate-x-0.5 group-hover:text-saffron-500"
+                        aria-hidden
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
           </Reveal>
         </div>
       </div>

@@ -48,7 +48,10 @@ export function Section({
       <div className="mx-auto w-full max-w-dossier px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
         <header className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
           {eyebrow ? (
-            <p className={`label-caps mb-4 ${eyebrowColor}`}>{eyebrow}</p>
+            <p className={`label-caps mb-5 flex items-center gap-3 ${eyebrowColor} ${centered ? "justify-center" : ""}`}>
+              <span aria-hidden className={`h-px w-8 shrink-0 ${tone === "dark" ? "bg-saffron-500/70" : "bg-saffron-500/60"}`} />
+              {eyebrow}
+            </p>
           ) : null}
           <h2
             id={`${id}-heading`}
